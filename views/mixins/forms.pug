@@ -1,0 +1,22 @@
+- const getInputName = (f, property) => `${f.name}[${property}]`
+
+mixin formFor(f, options = {})
+  - const url = _.get(options, 'url');
+  - const method = _.get(options, 'method', 'get').toLowerCase();
+  - const isStandart = _.includes(['get', 'post'], method);
+  form(action= url method= isStandart ? method : 'post')
+    if !isStandart
+      input(name='_method' type='hidden' value= method)
+    block
+
+mixin input(f, property, options = { as: 'text' })
+  - const value = f.object[property] === undefined ? '' : f.object[property]
+  .form-group(class=(f.errors[property] && 'has-danger'))
+    label= property
+    input(name=getInputName(f, property) class='form-control' type=options['as'] value=`${value}`)
+    if f.errors[property]
+      .form-control-feedback= f.errors[property].map(({ message }) => message).join('. ')
+
+mixin button(f, type = 'submit')
+  .form-group
+    input(class='btn' type=`${type}` value=`Save`)
