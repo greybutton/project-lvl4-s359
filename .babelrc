@@ -1,7 +1,7 @@
 {
   "presets": [
-    "@babel/flow",
-    ["@babel/env", {
+    "@babel/preset-flow",
+    ["@babel/preset-env", {
       "targets": { "node": "current" },
       "ignoreBrowserslistConfig": true
     }]

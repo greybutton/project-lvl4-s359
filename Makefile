@@ -47,4 +47,10 @@ compose-dist-build:
 compose-publish: compose-dist-build
 	docker-compose run web npm publish
 
+lint:
+	npx eslint .
+
+test:
+	npm test
+
 .PHONY: test
