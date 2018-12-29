@@ -6,9 +6,9 @@ import app from '..';
 describe('requests', () => {
   let server;
 
-  beforeAll(() => {
-    expect.extend(matchers);
-  });
+  // beforeAll(() => {
+  //   expect.extend(matchers);
+  // });
 
   beforeEach(() => {
     server = app().listen();
@@ -16,14 +16,16 @@ describe('requests', () => {
 
   it('GET 200', async () => {
     const res = await request.agent(server)
-      .get('/');
-    expect(res).toHaveHTTPStatus(200);
+      .get('/')
+      .expect(200);
+    // expect(res).toHaveHTTPStatus(200);
   });
 
   it('GET 404', async () => {
     const res = await request.agent(server)
-      .get('/wrong-path');
-    expect(res).toHaveHTTPStatus(404);
+      .get('/wrong-path')
+      .expect(404);
+    // expect(res).toHaveHTTPStatus(404);
   });
 
   afterEach((done) => {

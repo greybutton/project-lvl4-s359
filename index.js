@@ -42,7 +42,7 @@ export default () => {
   }));
   app.use(serve(path.join(__dirname, 'public')));
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV === 'development') {
     koaWebpack({
       config: webpackConfig,
     }).then(m => app.use(m));
