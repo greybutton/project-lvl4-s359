@@ -15,6 +15,7 @@ import flash from 'koa-flash-simple';
 import _ from 'lodash';
 import methodOverride from 'koa-methodoverride';
 import Rollbar from 'rollbar';
+import { format } from 'date-fns';
 
 import webpackConfig from './webpack.config';
 import addRoutes from './routes';
@@ -77,6 +78,7 @@ export default () => {
     helperPath: [
       { _ },
       { urlFor: (...args) => router.url(...args) },
+      { formatDate: format },
     ],
   });
   pug.use(app);
