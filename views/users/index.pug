@@ -1,15 +1,25 @@
 extends /layouts/application.pug
 
 block content
-  table.table.table-stripped
-    thead
-      tr
-        th Full Name
-        th Email
-        th Created At
-    tbody
-      each user in users
+  if users.length > 0
+    table.table.table-stripped
+      thead
         tr
-          td= user.fullName
-          td= user.email
-          td= user.createdAt
+          th Full Name
+          th Email
+          th Created At
+          th Actions
+      tbody
+        each user in users
+          tr
+            td= user.fullName
+            td= user.email
+            td= formatDate(new Date(user.createdAt), 'HH:mm DD.MM.YYYY')
+            if isSignedIn()
+              td
+                a(href=`/users/${user.id}/edit`) Edit
+                form.form-inline.d-inline-block(action= urlFor('deleteUsers', { id: user.id }) method='post')
+                  input(name='_method' type='hidden' value='delete')
+                  button.btn.btn-link(type='submit') Delete
+  else
+    p Empty
