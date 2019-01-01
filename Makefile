@@ -25,11 +25,14 @@ compose-build:
 compose-test:
 	docker-compose run web make test
 
+compose-test-watch:
+	docker-compose run web make test-watch
+
 compose-bash:
 	docker-compose run web bash
 
 compose-console:
-	docker-compose npx gulp console
+	docker-compose run web npx gulp console
 
 compose-lint:
 	docker-compose run web npx eslint .
@@ -52,5 +55,8 @@ lint:
 
 test:
 	npm test
+
+test-watch:
+	npm test -- --watchAll
 
 .PHONY: test
