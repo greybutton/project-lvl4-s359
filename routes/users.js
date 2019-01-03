@@ -22,7 +22,7 @@ export default (router) => {
         ctx.render('users/new', { f: buildFormObj(user, e) });
       }
     })
-    .get('users', '/users/:id/edit', async (ctx) => {
+    .get('editUser', '/users/:id/edit', async (ctx) => {
       const { id } = ctx.params;
       const user = await User.findOne({
         where: {
@@ -50,7 +50,7 @@ export default (router) => {
         ctx.render('users/edit', { f: buildFormObj(user, e) });
       }
     })
-    .delete('deleteUsers', '/users/:id', async (ctx) => {
+    .delete('deleteUser', '/users/:id', async (ctx) => {
       const { id } = ctx.params;
       const user = await User.findOne({
         where: {

@@ -17,8 +17,8 @@ block content
             td= formatDate(new Date(user.createdAt), 'HH:mm DD.MM.YYYY')
             if isSignedIn()
               td
-                a(href=`/users/${user.id}/edit`) Edit
-                form.form-inline.d-inline-block(action= urlFor('deleteUsers', { id: user.id }) method='post')
+                a(href= urlFor('editUser', { id: user.id })) Edit
+                form.form-inline.d-inline-block(action= urlFor('deleteUser', { id: user.id }) method='post')
                   input(name='_method' type='hidden' value='delete')
                   button.btn.btn-link(type='submit') Delete
   else
