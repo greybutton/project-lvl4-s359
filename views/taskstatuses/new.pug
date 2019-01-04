@@ -1,0 +1,6 @@
+extends /layouts/application.pug
+
+block content
+  +formFor(f, { url: urlFor('taskstatuses'), method: 'post' })
+    +input(f, 'name')
+    +button(f)

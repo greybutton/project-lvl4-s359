@@ -1,0 +1,23 @@
+extends /layouts/application.pug
+
+block content
+  a.btn.btn-primary(href=urlFor('newTaskstatus')) Add
+  if taskstatuses.length > 0
+    table.table.table-stripped
+      thead
+        tr
+          th Name
+          th Created At
+          th Actions
+      tbody
+        each taskstatus in taskstatuses
+          tr
+            td= taskstatus.name
+            td= formatDate(new Date(taskstatus.createdAt), 'HH:mm DD.MM.YYYY')
+            td
+              a(href= urlFor('editTaskstatus', { id: taskstatus.id })) Edit
+              form.form-inline.d-inline-block(action= urlFor('deleteTaskstatus', { id: taskstatus.id }) method='post')
+                input(name='_method' type='hidden' value='delete')
+                button.btn.btn-link(type='submit') Delete
+  else
+    p Empty

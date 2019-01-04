@@ -1,0 +1,6 @@
+extends /layouts/application.pug
+
+block content
+  +formFor(f, { url: urlFor('updateTaskstatus', { id: f.object.id }), method: 'patch' })
+    +input(f, 'name')
+    +button(f)

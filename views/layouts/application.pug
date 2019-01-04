@@ -11,9 +11,14 @@ html(lang="en")
       button.navbar-toggler(data-toggle="collapse" data-target="#navbarSupportedContent")
         span.navbar-toggler-icon
       .collapse.navbar-collapse
-        ul.navbar-nav.mr-auto
-          li.nav-item.active
-            a.nav-link(href=urlFor('users')) Users
+        if isSignedIn()
+          ul.navbar-nav.mr-auto
+            li.nav-item.active
+              a.nav-link(href=urlFor('users')) Users
+            li.nav-item.active
+              a.nav-link(href=urlFor('taskstatuses')) Task Statuses
+        else
+          ul.navbar-nav.mr-auto
         ul.navbar-nav
           if isSignedIn()
             li.nav-item
