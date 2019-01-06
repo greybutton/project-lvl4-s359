@@ -52,6 +52,7 @@ export default (router) => {
     })
     .delete('deleteUser', '/users/:id', async (ctx) => {
       const { id } = ctx.params;
+      const { userId } = ctx.session;
       const user = await User.findOne({
         where: {
           id,
@@ -59,6 +60,9 @@ export default (router) => {
       });
       try {
         await user.destroy();
+        if (userId && userId.toString() === id) {
+          ctx.session = {};
+        }
         ctx.flash.set('User has been deleted');
         ctx.redirect(router.url('users'));
       } catch (e) {

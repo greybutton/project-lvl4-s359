@@ -15,11 +15,13 @@ block content
             td= user.fullName
             td= user.email
             td= formatDate(new Date(user.createdAt), 'HH:mm DD.MM.YYYY')
-            if isSignedIn()
+            if (isSignedIn() && isAllowed(user.id))
               td
-                a(href= urlFor('editUser', { id: user.id })) Edit
-                form.form-inline.d-inline-block(action= urlFor('deleteUser', { id: user.id }) method='post')
+                a.editUser(href= urlFor('editUser', { id: user.id })) Edit
+                form.form-inline.d-inline-block(action= urlFor('deleteUser', { id: user.id }) method='post' data-confirm="Are you sure?")
                   input(name='_method' type='hidden' value='delete')
                   button.btn.btn-link(type='submit') Delete
+            else
+              td
   else
     p Empty
