@@ -33,10 +33,10 @@ export default (sequelize, DataTypes) => {
       fullName() {
         return `${this.firstName} ${this.lastName}`;
       },
-      associate() {
-        // associations can be defined here
-      },
     },
   });
+  User.associate = (models) => {
+    User.hasMany(models.Task, { as: 'CreatedTasks', foreignKey: 'creatorId' });
+  };
   return User;
 };

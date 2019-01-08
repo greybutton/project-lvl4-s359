@@ -1,0 +1,8 @@
+extends /layouts/application.pug
+
+block content
+  h3 Add task
+  +formFor(f, { url: urlFor('tasks'), method: 'post' })
+    +input(f, 'name')
+    +input(f, 'description')
+    +button(f)

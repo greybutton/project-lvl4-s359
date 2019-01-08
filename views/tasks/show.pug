@@ -1,0 +1,31 @@
+extends /layouts/application.pug
+
+block content
+  h3 Task
+  if task
+    table.table.table-stripped
+      tbody
+        tr
+          th(scope="row") Name
+          td= task.name
+        tr
+          th(scope="row") Description
+          td= task.description
+        tr
+          th(scope="row") Creator
+          td
+            span= task.Creator.fullName
+            span &nbsp;/&nbsp;
+            span= task.Creator.email
+        tr
+          th(scope="row") Created at
+          td= formatDate(new Date(task.createdAt), 'HH:mm DD.MM.YYYY')
+        tr
+          th(scope="row") Actions
+          td
+            a.btn.btn-outline-secondary(href= urlFor('editTask', { id: task.id })) Edit
+            form.form-inline.d-inline-block(action= urlFor('deleteTask', { id: task.id }) method='post' data-confirm="Are you sure?")
+              input(name='_method' type='hidden' value='delete')
+              button.btn.btn-outline-danger(type='submit') Delete
+  else
+    p Empty

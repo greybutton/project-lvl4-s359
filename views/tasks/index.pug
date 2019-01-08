@@ -1,0 +1,26 @@
+extends /layouts/application.pug
+
+block content
+  a.btn.btn-primary(href=urlFor('newTask')) Add
+  if tasks.length > 0
+    table.table.table-stripped
+      thead
+        tr
+          th Name
+          th Creator
+          th Created At
+          th Actions
+      tbody
+        each task in tasks
+          tr
+            td
+              a(href= urlFor('showTask', { id: task.id }))= task.name
+            td= task.Creator.fullName
+            td= formatDate(new Date(task.createdAt), 'HH:mm DD.MM.YYYY')
+            td
+              a.btn.btn-link(href= urlFor('editTask', { id: task.id })) Edit
+              form.form-inline.d-inline-block(action= urlFor('deleteTask', { id: task.id }) method='post' data-confirm="Are you sure?")
+                input(name='_method' type='hidden' value='delete')
+                button.btn.btn-link(type='submit') Delete
+  else
+    p Empty
