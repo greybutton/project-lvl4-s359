@@ -1,9 +1,10 @@
 import buildFormObj from '../lib/formObjectBuilder';
+import { requiredAuth } from '../middlewares';
 import { User } from '../models';
 
 export default (router) => {
   router
-    .get('users', '/users', async (ctx) => {
+    .get('users', '/users', requiredAuth, async (ctx) => {
       const users = await User.findAll();
       ctx.render('users', { users });
     })
@@ -22,7 +23,7 @@ export default (router) => {
         ctx.render('users/new', { f: buildFormObj(user, e) });
       }
     })
-    .get('editUser', '/users/:id/edit', async (ctx) => {
+    .get('editUser', '/users/:id/edit', requiredAuth, async (ctx) => {
       const { id } = ctx.params;
       const user = await User.findOne({
         where: {
@@ -31,7 +32,7 @@ export default (router) => {
       });
       ctx.render('users/edit', { f: buildFormObj(user) });
     })
-    .patch('updateUser', '/users/:id', async (ctx) => {
+    .patch('updateUser', '/users/:id', requiredAuth, async (ctx) => {
       const { form } = ctx.request.body;
       const { id } = ctx.params;
       try {
@@ -50,7 +51,7 @@ export default (router) => {
         ctx.render('users/edit', { f: buildFormObj(user, e) });
       }
     })
-    .delete('deleteUser', '/users/:id', async (ctx) => {
+    .delete('deleteUser', '/users/:id', requiredAuth, async (ctx) => {
       const { id } = ctx.params;
       const { userId } = ctx.session;
       const user = await User.findOne({

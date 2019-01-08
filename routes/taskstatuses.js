@@ -1,8 +1,10 @@
 import buildFormObj from '../lib/formObjectBuilder';
+import { requiredAuth } from '../middlewares';
 import { TaskStatus } from '../models';
 
 export default (router) => {
   router
+    .use('/taskstatuses', requiredAuth)
     .get('taskstatuses', '/taskstatuses', async (ctx) => {
       const taskstatuses = await TaskStatus.findAll();
       ctx.render('taskstatuses', { taskstatuses });
