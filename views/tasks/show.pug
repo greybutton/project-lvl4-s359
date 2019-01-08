@@ -17,9 +17,9 @@ block content
         tr
           th(scope="row") Assigned to
           td
-            span= task.Assigned.fullName
+            span= task.Assigned && task.Assigned.fullName
             span &nbsp;/&nbsp;
-            span= task.Assigned.email
+            span= task.Assigned && task.Assigned.email
         tr
           th(scope="row") Creator
           td
