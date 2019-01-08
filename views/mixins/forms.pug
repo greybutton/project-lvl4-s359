@@ -23,7 +23,7 @@ mixin select(f, property, options = {})
     label= property
     select.custom-select(name=getInputName(f, options.name))
       each item in options.items
-        option(value= item.id selected= (item.id === options.selected))= item.name
+        option(value= item.id selected= (item.id === options.selected))= item[options.itemTitle]
 
 mixin button(f, type = 'submit')
   .form-group

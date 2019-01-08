@@ -15,6 +15,12 @@ block content
           th(scope="row") Status
           td= task.Status && task.Status.name
         tr
+          th(scope="row") Assigned to
+          td
+            span= task.Assigned.fullName
+            span &nbsp;/&nbsp;
+            span= task.Assigned.email
+        tr
           th(scope="row") Creator
           td
             span= task.Creator.fullName

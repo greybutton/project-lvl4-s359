@@ -5,5 +5,6 @@ block content
   +formFor(f, { url: urlFor('updateTask', { id: f.object.id }), method: 'patch' })
     +input(f, 'name')
     +input(f, 'description')
-    +select(f, 'status', { name: 'statusId', items: statuses, selected: f.object.Status && f.object.Status.id })
+    +select(f, 'status', { name: 'statusId', items: statuses, itemTitle: 'name', selected: f.object.Status && f.object.Status.id })
+    +select(f, 'assigned to', { name: 'assignedId', items: users, itemTitle: 'fullName', selected: f.object.Assigned && f.object.Assigned.id })
     +button(f)

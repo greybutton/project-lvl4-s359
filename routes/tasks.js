@@ -9,6 +9,7 @@ export default (router) => {
       const tasks = await Task.findAll({
         include: [
           { model: User, as: 'Creator' },
+          { model: User, as: 'Assigned' },
           { model: TaskStatus, as: 'Status' },
         ],
       });
@@ -17,7 +18,8 @@ export default (router) => {
     .get('newTask', '/tasks/new', async (ctx) => {
       const task = Task.build();
       const statuses = await TaskStatus.findAll();
-      ctx.render('tasks/new', { f: buildFormObj(task), statuses });
+      const users = await User.findAll();
+      ctx.render('tasks/new', { f: buildFormObj(task), statuses, users });
     })
     .get('showTask', '/tasks/:id', async (ctx) => {
       const { id } = ctx.params;
@@ -27,6 +29,7 @@ export default (router) => {
         },
         include: [
           { model: User, as: 'Creator' },
+          { model: User, as: 'Assigned' },
           { model: TaskStatus, as: 'Status' },
         ],
       });
@@ -39,11 +42,13 @@ export default (router) => {
           id,
         },
         include: [
+          { model: User, as: 'Assigned' },
           { model: TaskStatus, as: 'Status' },
         ],
       });
       const statuses = await TaskStatus.findAll();
-      ctx.render('tasks/edit', { f: buildFormObj(task), statuses });
+      const users = await User.findAll();
+      ctx.render('tasks/edit', { f: buildFormObj(task), statuses, users });
     })
     .post('tasks', '/tasks', async (ctx) => {
       const { userId } = ctx.session;

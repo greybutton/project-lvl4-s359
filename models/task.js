@@ -10,6 +10,7 @@ export default (sequelize, DataTypes) => {
   }, {});
   Task.associate = (models) => {
     Task.belongsTo(models.User, { as: 'Creator', foreignKey: 'creatorId' });
+    Task.belongsTo(models.User, { as: 'Assigned', foreignKey: 'assignedId' });
     Task.belongsTo(models.TaskStatus, { as: 'Status', foreignKey: 'statusId' });
   };
   return Task;
