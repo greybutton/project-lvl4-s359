@@ -15,8 +15,8 @@ block content
             td= taskstatus.name
             td= formatDate(new Date(taskstatus.createdAt), 'HH:mm DD.MM.YYYY')
             td
-              a(href= urlFor('editTaskstatus', { id: taskstatus.id })) Edit
-              form.form-inline.d-inline-block(action= urlFor('deleteTaskstatus', { id: taskstatus.id }) method='post')
+              a.btn.btn-link(href= urlFor('editTaskstatus', { id: taskstatus.id })) Edit
+              form.form-inline.d-inline-block(action= urlFor('deleteTaskstatus', { id: taskstatus.id }) method='post' data-confirm="Are you sure?")
                 input(name='_method' type='hidden' value='delete')
                 button.btn.btn-link(type='submit') Delete
   else
