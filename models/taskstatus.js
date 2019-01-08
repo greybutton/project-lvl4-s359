@@ -8,8 +8,8 @@ export default (sequelize, DataTypes) => {
       },
     },
   }, {});
-  // TaskStatus.associate = (models) =>{
-  //   // associations can be defined here
-  // };
+  TaskStatus.associate = (models) => {
+    TaskStatus.hasMany(models.Task, { as: 'Tasks', foreignKey: 'statusId' });
+  };
   return TaskStatus;
 };

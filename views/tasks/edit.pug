@@ -5,4 +5,5 @@ block content
   +formFor(f, { url: urlFor('updateTask', { id: f.object.id }), method: 'patch' })
     +input(f, 'name')
     +input(f, 'description')
+    +select(f, 'status', { name: 'statusId', items: statuses, selected: f.object.Status && f.object.Status.id })
     +button(f)

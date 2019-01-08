@@ -5,4 +5,5 @@ block content
   +formFor(f, { url: urlFor('tasks'), method: 'post' })
     +input(f, 'name')
     +input(f, 'description')
+    +select(f, 'status', { name: 'statusId', items: statuses })
     +button(f)

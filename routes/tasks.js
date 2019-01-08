@@ -1,6 +1,6 @@
 import buildFormObj from '../lib/formObjectBuilder';
 import { requiredAuth } from '../middlewares';
-import { Task, User } from '../models';
+import { Task, User, TaskStatus } from '../models';
 
 export default (router) => {
   router
@@ -9,13 +9,15 @@ export default (router) => {
       const tasks = await Task.findAll({
         include: [
           { model: User, as: 'Creator' },
+          { model: TaskStatus, as: 'Status' },
         ],
       });
       ctx.render('tasks', { tasks });
     })
-    .get('newTask', '/tasks/new', (ctx) => {
+    .get('newTask', '/tasks/new', async (ctx) => {
       const task = Task.build();
-      ctx.render('tasks/new', { f: buildFormObj(task) });
+      const statuses = await TaskStatus.findAll();
+      ctx.render('tasks/new', { f: buildFormObj(task), statuses });
     })
     .get('showTask', '/tasks/:id', async (ctx) => {
       const { id } = ctx.params;
@@ -25,6 +27,7 @@ export default (router) => {
         },
         include: [
           { model: User, as: 'Creator' },
+          { model: TaskStatus, as: 'Status' },
         ],
       });
       ctx.render('tasks/show', { task });
@@ -35,8 +38,12 @@ export default (router) => {
         where: {
           id,
         },
+        include: [
+          { model: TaskStatus, as: 'Status' },
+        ],
       });
-      ctx.render('tasks/edit', { f: buildFormObj(task) });
+      const statuses = await TaskStatus.findAll();
+      ctx.render('tasks/edit', { f: buildFormObj(task), statuses });
     })
     .post('tasks', '/tasks', async (ctx) => {
       const { userId } = ctx.session;

@@ -12,6 +12,9 @@ block content
           th(scope="row") Description
           td= task.description
         tr
+          th(scope="row") Status
+          td= task.Status && task.Status.name
+        tr
           th(scope="row") Creator
           td
             span= task.Creator.fullName

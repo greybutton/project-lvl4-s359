@@ -7,6 +7,7 @@ block content
       thead
         tr
           th Name
+          th Status
           th Creator
           th Created At
           th Actions
@@ -15,6 +16,7 @@ block content
           tr
             td
               a(href= urlFor('showTask', { id: task.id }))= task.name
+            td= task.Status && task.Status.name
             td= task.Creator.fullName
             td= formatDate(new Date(task.createdAt), 'HH:mm DD.MM.YYYY')
             td
