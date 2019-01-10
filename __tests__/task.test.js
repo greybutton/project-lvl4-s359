@@ -7,6 +7,7 @@ import { Task, User, sequelize } from '../models';
 const task = {
   name: faker.lorem.sentence(),
   description: faker.lorem.paragraph(),
+  tags: '',
 };
 
 const taskUpdate = {

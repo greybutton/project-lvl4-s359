@@ -10,11 +10,13 @@ mixin formFor(f, options = {})
     block
 
 mixin input(f, property, options = { as: 'text', autofocus: false })
-  - const value = f.object[property] === undefined ? '' : f.object[property]
+  - const value = f.object[property] === undefined ? (options.value || '') : f.object[property]
   - const error = f.errors[property]
   .form-group
     label= property
     input(name=getInputName(f, property) class=`form-control ${error && 'is-invalid'}` type=options['as'] value=`${value}` autofocus=options.autofocus)
+    if options.small
+      small.form-text.text-muted= options.small
     if error
       .invalid-feedback= f.errors[property].map(({ message }) => message).join('. ')
 

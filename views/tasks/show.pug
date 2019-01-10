@@ -30,6 +30,13 @@ block content
           th(scope="row") Created at
           td= formatDate(new Date(task.createdAt), 'HH:mm DD.MM.YYYY')
         tr
+          th(scope="row") Tags
+          td
+            if task.Tags
+              each tag in task.Tags
+                span= tag.name
+                span &nbsp;
+        tr
           th(scope="row") Actions
           td
             a.btn.btn-outline-secondary(href= urlFor('editTask', { id: task.id })) Edit

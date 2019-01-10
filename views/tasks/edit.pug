@@ -7,4 +7,5 @@ block content
     +input(f, 'description')
     +select(f, 'status', { name: 'statusId', items: statuses, itemTitle: 'name', selected: f.object.Status && f.object.Status.id })
     +select(f, 'assigned to', { name: 'assignedId', items: users, itemTitle: 'fullName', selected: f.object.Assigned && f.object.Assigned.id })
+    +input(f, 'tags', { small: 'Example: #tag #tag', value: f.object.Tags && f.object.Tags.map(t => t.name).join(' ') })
     +button(f)
