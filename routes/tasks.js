@@ -18,7 +18,10 @@ export default (router) => {
   router
     .use('/tasks', requiredAuth)
     .get('filterTasks', '/tasks/filter', async (ctx) => {
-      const { tags, statusId, assignedId } = ctx.request.query;
+      const {
+        tags, statusId, assignedId, mytasks,
+      } = ctx.request.query;
+      const { userId } = ctx.session;
 
       const tagsQuery = tags.split(' ').filter(t => t);
       const isStatusAll = statusId === 'all';
@@ -26,7 +29,8 @@ export default (router) => {
 
       const filterTag = tagsQuery.length === 0 ? null : { name: tagsQuery };
       const filterStatus = isStatusAll ? null : { id: statusId };
-      const filterAssigned = isAssignedAll ? null : { id: assignedId };
+      const filterAssignedSelect = isAssignedAll ? null : { id: assignedId };
+      const filterAssigned = mytasks ? { id: userId } : filterAssignedSelect;
 
       const tasks = await Task.findAll({
         include: [
@@ -45,6 +49,7 @@ export default (router) => {
         tasks,
         statuses: [{ id: 'all', name: 'All' }, ...statuses],
         users: [{ id: 'all', fullName: 'All' }, ...users],
+        mytasks: !!mytasks,
         currentTags: tags,
         selectedStatusId: isStatusAll ? 'all' : Number(statusId),
         selectedAssignedId: isAssignedAll ? 'all' : Number(assignedId),
