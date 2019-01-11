@@ -23,10 +23,22 @@ mixin input(f, property, options = { as: 'text', autofocus: false })
 mixin select(f, property, options = {})
   .form-group
     label= property
-    select.custom-select(name=getInputName(f, options.name))
+    select.form-control(name=getInputName(f, options.name))
       each item in options.items
         option(value= item.id selected= (item.id === options.selected))= item[options.itemTitle]
 
 mixin button(f, type = 'submit')
   .form-group
     input(class='btn btn-primary' type=`${type}` value=`Save`)
+
+mixin inputFilter(property, options = { as: 'text' })
+  .form-group.mr-3
+    label.pr-2= property
+    input.form-control(name= options.name type=options['as'] value=`${options.value}`)
+
+mixin selectFilter(property, options = {})
+  .form-group.mr-3
+    label.pr-2= property
+    select.form-control(name= options.name)
+      each item in options.items
+        option(value= item.id selected= (item.id === options.selected))= item[options.itemTitle]

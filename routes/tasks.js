@@ -17,6 +17,39 @@ const getTagIds = async (tags) => {
 export default (router) => {
   router
     .use('/tasks', requiredAuth)
+    .get('filterTasks', '/tasks/filter', async (ctx) => {
+      const { tags, statusId, assignedId } = ctx.request.query;
+
+      const tagsQuery = tags.split(' ').filter(t => t);
+      const isStatusAll = statusId === 'all';
+      const isAssignedAll = assignedId === 'all';
+
+      const filterTag = tagsQuery.length === 0 ? null : { name: tagsQuery };
+      const filterStatus = isStatusAll ? null : { id: statusId };
+      const filterAssigned = isAssignedAll ? null : { id: assignedId };
+
+      const tasks = await Task.findAll({
+        include: [
+          { model: User, as: 'Creator' },
+          { model: Tag, as: 'Tags', where: filterTag },
+          { model: TaskStatus, as: 'Status', where: filterStatus },
+          { model: User, as: 'Assigned', where: filterAssigned },
+        ],
+      });
+
+      const statuses = await TaskStatus.findAll();
+      const users = await User.findAll();
+
+      ctx.render('tasks', {
+        f: buildFormObj({ name: 'filter' }),
+        tasks,
+        statuses: [{ id: 'all', name: 'All' }, ...statuses],
+        users: [{ id: 'all', fullName: 'All' }, ...users],
+        currentTags: tags,
+        selectedStatusId: isStatusAll ? 'all' : Number(statusId),
+        selectedAssignedId: isAssignedAll ? 'all' : Number(assignedId),
+      });
+    })
     .get('tasks', '/tasks', async (ctx) => {
       const tasks = await Task.findAll({
         include: [
@@ -25,7 +58,19 @@ export default (router) => {
           { model: TaskStatus, as: 'Status' },
         ],
       });
-      ctx.render('tasks', { tasks });
+
+      const statuses = await TaskStatus.findAll();
+      const users = await User.findAll();
+
+      ctx.render('tasks', {
+        f: buildFormObj({ name: 'filter' }),
+        tasks,
+        statuses: [{ id: 'all', name: 'All' }, ...statuses],
+        users: [{ id: 'all', fullName: 'All' }, ...users],
+        currentTags: '',
+        selectedStatusId: 'all',
+        selectedAssignedId: 'all',
+      });
     })
     .get('newTask', '/tasks/new', async (ctx) => {
       const task = Task.build();

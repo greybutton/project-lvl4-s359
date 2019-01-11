@@ -2,6 +2,13 @@ extends /layouts/application.pug
 
 block content
   a.btn.btn-primary(href=urlFor('newTask')) Add
+  h3 Filter tasks
+  form.form-inline.mb-3(action= urlFor('filterTasks') method='get')
+    +inputFilter('tags', { name: 'tags', value: currentTags })
+    +selectFilter('status', { name: 'statusId', items: statuses, itemTitle: 'name', selected: selectedStatusId })
+    +selectFilter('assigned to', { name: 'assignedId', items: users, itemTitle: 'fullName', selected: selectedAssignedId })
+    +button()
+  h3 Tasks
   if tasks.length > 0
     table.table.table-stripped
       thead
