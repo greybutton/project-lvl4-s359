@@ -17,9 +17,9 @@ const getTagIds = async (tags) => {
 export default (router) => {
   router
     .use('/tasks', requiredAuth)
-    .get('filterTasks', '/tasks/filter', async (ctx) => {
+    .get('tasks', '/tasks', async (ctx) => {
       const {
-        tags, statusId, assignedId, mytasks,
+        tags = '', statusId = 'all', assignedId = 'all', mytasks,
       } = ctx.request.query;
       const { userId } = ctx.session;
 
@@ -53,28 +53,6 @@ export default (router) => {
         currentTags: tags,
         selectedStatusId: isStatusAll ? 'all' : Number(statusId),
         selectedAssignedId: isAssignedAll ? 'all' : Number(assignedId),
-      });
-    })
-    .get('tasks', '/tasks', async (ctx) => {
-      const tasks = await Task.findAll({
-        include: [
-          { model: User, as: 'Creator' },
-          { model: User, as: 'Assigned' },
-          { model: TaskStatus, as: 'Status' },
-        ],
-      });
-
-      const statuses = await TaskStatus.findAll();
-      const users = await User.findAll();
-
-      ctx.render('tasks', {
-        f: buildFormObj({ name: 'filter' }),
-        tasks,
-        statuses: [{ id: 'all', name: 'All' }, ...statuses],
-        users: [{ id: 'all', fullName: 'All' }, ...users],
-        currentTags: '',
-        selectedStatusId: 'all',
-        selectedAssignedId: 'all',
       });
     })
     .get('newTask', '/tasks/new', async (ctx) => {

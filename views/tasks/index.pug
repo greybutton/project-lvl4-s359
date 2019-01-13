@@ -3,7 +3,7 @@ extends /layouts/application.pug
 block content
   a.btn.btn-primary(href=urlFor('newTask')) Add
   h3 Filter tasks
-  form.form-inline.mb-3(action= urlFor('filterTasks') method='get')
+  form.form-inline.mb-3(action= urlFor('tasks') method='get')
     .form-check.mr-3
       input.form-check-input(type="checkbox" name="mytasks" value="mytasks" id="defaultCheck1" checked= mytasks)
       label.form-check-label(for="defaultCheck1") My tasks
